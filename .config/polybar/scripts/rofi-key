@@ -1,0 +1,17 @@
+#!/bin/sh
+# custom bspwm keybindings cheatsheet
+notify-send -u normal -i \
+"/usr/share/icons/Qogir/symbolic/devices/input-keyboard-symbolic.svg" \
+"Right  list all" \
+" + ␣ launcher\n\
+ +  terminal\n\
+ + Sh +  tilix\n\
+ + i,o cycle ws\n\
+ + Sh + 1-9 move ws\n\
+ + s floating\n\
+ + m monocle\n\
+ + q close window\n\
+ + Ct + q reload \n\
+ + Sh + q reload \n\
+ + Esc powermenu\n\
+"

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Original work by: https://github.com/adi1090x/rofi
+
+case $1 in
+drun)
+  rofi -show drun -theme $HOME/.config/rofi/styles/run-drun.rasi
+	;;
+run)
+  rofi -show run -theme $HOME/.config/rofi/styles/run-drun.rasi
+	;;
+emoji)
+  rofi -show emoji -theme $HOME/.config/rofi/styles/emoji.rasi
+  ;;
+window)
+  rofi -show window -theme $HOME/.config/rofi/styles/run-drun.rasi
+  ;;
+esac

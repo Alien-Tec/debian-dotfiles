@@ -1,0 +1,34 @@
+#!/bin/zsh
+
+## Symlink this file to ~/.zprofile if using xinit to login
+## or ~/.profile if use login manager (~/.zprofile also work)
+
+## Script and binaries
+export PATH="$HOME/.local/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/.local/src/node-v18.16.0-linux-x64/bin:$PATH"
+
+## Default programs:
+export EDITOR="nvim"
+export TERMINAL="alacritty"
+export BROWSER="firefox"
+export FMGR="thunar"
+
+## Clean up $HOME
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export ZPLUGDIR="$HOME/.local/src/zsh_plugins"
+export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
+export TMUX_CONFIG_DIR="$XDG_CONFIG_HOME/tmux"
+
+## Other program settings:
+export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
+# export QT_QPA_PLATFORMTHEME="gtk2" # Have QT use gtk2 theme
+export QT_QPA_PLATFORMTHEME="qt5ct" # Use QT on wayland/hyprland
+export GTK_THEME=Andromeda # default value = Adwaita:dark | comment this if using lxappearance,etc
+export MOZ_USE_XINPUT2="1" # Mozilla/librewolf smooth scrolling/touchpads (for Xorg)
+export MOZ_ENABLE_WAYLAND="1" # Firefox for wayland (also for smooth scrolling)
+
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+  exec startx "$XINITRC"
+fi

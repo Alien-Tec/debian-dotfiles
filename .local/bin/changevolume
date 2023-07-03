@@ -1,0 +1,37 @@
+#!/bin/bash
+
+function send_notification_up() {
+	volume=$(pamixer --get-volume)
+	dunstify -a "changevolume" -u low -r "9393" -h int:value:"$volume" -i "volume-$1" "Volume: ${volume}%" -t 2000 --icon=$HOME/.config/dunst/assets/volume-up-icon.png
+}
+
+function send_notification_down() {
+	volume=$(pamixer --get-volume)
+	dunstify -a "changevolume" -u low -r "9393" -h int:value:"$volume" -i "volume-$1" "Volume: ${volume}%" -t 2000 --icon=$HOME/.config/dunst/assets/volume-down-icon.png
+}
+
+function send_notification_mute() {
+	volume=$(pamixer --get-volume)
+	dunstify -a "changevolume" -u low -r "9393" -h int:value:"$volume" -i "volume-$1" "Volume: ${volume}%" -t 2000 --icon=$HOME/.config/dunst/assets/volume-mute-icon.png
+}
+
+case $1 in
+up)
+	pamixer -u
+	pamixer -i 5
+	send_notification_up $1
+	;;
+down)
+	pamixer -u
+	pamixer -d 5
+	send_notification_down $1
+	;;
+mute)
+	pamixer -t
+	if $(pamixer --get-mute); then
+		notify-send -i volume-mute -a "changevolume" -t 2000 -r 9393 -u low "Muted" --icon=$HOME/.config/dunst/assets/volume-mute-icon.png
+	else
+		send_notification_up
+	fi
+	;;
+esac

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+function send_notification() {
+
+  actualbrightness="$(cat /sys/class/backlight/amdgpu_bl0/brightness)"
+  total="255"
+  brightness="$((100*$actualbrightness/$total))" # rounded decimal
+
+	notify-send -a "changebrightness" -u low -r "9393" -h int:value:"$brightness" -i "brightness-$1" "Brightness: ${brightness}%" -t 2000 --icon=$HOME/.config/dunst/assets/brightness-icon.png
+}
+
+case $1 in
+up)
+  light -A 5
+	send_notification $1
+	;;
+down)
+  light -U 5
+	send_notification $1
+	;;
+esac

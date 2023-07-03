@@ -1,0 +1,15 @@
+/* Original work by: https://github.com/adi1090x/rofi */
+
+/* Define global color and font*/
+
+* {
+    /* font:               "JetBrains Mono Nerd Font 13"; */
+    font:               "SF Pro Display 13";
+    background:         #0E1419;
+    background-alt:     #2C2F33;
+    foreground:         #FFFFFF;
+    /* foreground:         #EBDBB2FF; */
+    selected:           #88A8B7;
+    active:             #39BAE6;
+    urgent:             #FBC02D;
+}

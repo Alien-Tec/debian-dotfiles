@@ -1,0 +1,291 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+	alacritty
+
+super + shift + Return
+  ~/.local/bin/sp-term
+
+super + c
+  ~/.local/bin/sp-cal
+
+super + shift + e
+  ~/.local/bin/sp-lf
+
+super + shift + m
+  ~/.local/bin/sp-mus
+
+super + ctrl + n
+  ~/.local/bin/sp-nmtui
+
+super + v
+  ~/.local/bin/sp-plsmxr
+
+super + ctrl + Return
+  alacritty -e $HOME/.local/bin/runtmux
+
+# program launcher
+super + @space
+  ~/.config/rofi/roffi drun
+
+alt + @space
+  ~/.config/rofi/roffi run
+	
+super + grave
+  ~/.config/rofi/roffi emoji
+
+super + Escape
+  ~/.config/rofi/powermenu.sh
+
+alt + Tab
+  ~/.config/rofi/roffi window
+
+super + w
+	firefox
+
+super + shift + w
+	firefox --private-window
+
+super + e
+	thunar
+
+super + shift + g
+  geany
+	
+super + F4
+  pavucontrol
+
+super + apostrophe
+	galculator
+
+# make sxhkd reload its configuration files:
+super + shift + q
+	pkill -USR1 -x sxhkd; notify-send "sxhkd reloaded"
+	
+super + ctrl + q
+	bspc wm -r; notify-send "bspwm reloaded"
+
+# bspwm hotkeys
+
+# quit bspwm
+super + ctrl + shift + q
+	bspc quit
+
+super + q
+	bspc node -c
+
+super + x
+  ~/.local/bin/locker
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# send the newest marked node to the newest preselected node
+super + n
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+#
+# Volume and brightness key
+#
+
+# volume keys
+XF86AudioRaiseVolume
+	~/.local/bin/changevolume up
+  # pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+XF86AudioLowerVolume
+  ~/.local/bin/changevolume down
+  # pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+XF86AudioMute
+	~/.local/bin/changevolume mute
+  # pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+super + equal
+  ~/.local/bin/changevolume up
+  # pactl set-sink-volume @DEFAULT_SINK@ +5%
+super + minus
+  ~/.local/bin/changevolume down
+  # pactl set-sink-volume @DEFAULT_SINK@ -5%
+super + 0
+  ~/.local/bin/changevolume mute
+  # pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# brightness keys
+XF86MonBrightnessUp
+  changebrightness up
+	# brightnessctl set +15
+
+XF86MonBrightnessDown
+  changebrightness down
+	# brightnessctl set 15-
+
+super + shift + equal
+  changebrightness up
+	# brightnessctl set +15
+super + shift + minus
+  changebrightness down
+	# brightnessctl set 15-
+
+# media keys
+#XF86AudioPrev
+#	playerctl previous
+
+#XF86AudioNext
+#	playerctl next
+
+#XF86AudioPlay
+#	playerctl play-pause
+
+#
+# state/flags
+#
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+# rotate windows
+super + r
+	bspc node @/ -R 90
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,z,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous window in the current desktop
+super + {_,shift + }b
+	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + {i,o}
+	bspc desktop -f {prev,next}.local
+
+## focus the last node/desktop
+super + Tab
+	bspc desktop -f last
+# super + {grave,Tab}
+# 	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+#super + {o,i}
+#	bspc wm -h off; \
+#	bspc node {older,newer} -f; \
+#	bspc wm -h on
+
+# focus or send to the given desktop
+# super + {_,shift + }{1-9,0}
+# 	bspc {desktop -f,node -d} '^{1-9,10}'
+super + {_,shift + }{1-9}
+	bspc {desktop -f,node -d} '^{1-9}'
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + @space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + @space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# resizing windows
+super + ctrl + { Left, Down, Up, Right}
+	bspc node -z {left -80 0,bottom 0 80,top 0 -80,right 80 0}
+
+super + ctrl + shift + { Left, Down, Up, Right}
+	bspc node -z {right -80 0,top 0 80,bottom 0 -80,left 80 0}
+
+# mpd
+super + backslash
+  mpc toggle
+
+super + shift + backslash
+  mpc stop
+
+super + bracket{left,right}
+  mpc {prev,next}
+
+super + shift + bracket{left,right}
+  mpc seek {-5,+5}
+
+super + control + bracket{left,right}
+  mpc seek {-30,+30}
+
+# screenshot
+@Print
+	maim ~/Pictures/pic-full-$(date '+%y%m%d-%H%M-%S').png; \
+	notify-send '🖼️ Screenshot saved'
+
+super + shift + s
+	maim -s | xclip -selection clipboard -t image/png; \
+	notify-send '📋 Screenshot area copied to clipboard'
+
+shift + @Print
+  ~/.local/bin/maimpick
+
+# color picker
+super + y
+  ~/.local/bin/xcpc
+
+super + F2
+  ~/.local/bin/dmenutodo
+
+# notifications
+ctrl + alt + @space
+  dunstctl close
+
+ctrl + shift + @space
+  dunstctl close-all
+
+ctrl + shift + period
+  dunstctl context
+
+ctrl + grave
+  dunstctl history-pop
